@@ -66,7 +66,9 @@ describe('SectionPanel', () => {
     for (const job of portfolio.experience) {
       expect(panel).toHaveTextContent(job.role);
       expect(panel).toHaveTextContent(job.org);
-      expect(panel).toHaveTextContent(job.end ? `${job.start} – ${job.end}` : `${job.start} – Present`);
+      expect(panel).toHaveTextContent(
+        job.end ? `${job.start} – ${job.end}` : `${job.start} – Present`,
+      );
     }
   });
 
@@ -78,7 +80,10 @@ describe('SectionPanel', () => {
       `mailto:${portfolio.contact.email}`,
     );
     for (const link of portfolio.contact.links) {
-      expect(within(panel).getByRole('link', { name: new RegExp(link.label) })).toHaveAttribute('href', link.url);
+      expect(within(panel).getByRole('link', { name: new RegExp(link.label) })).toHaveAttribute(
+        'href',
+        link.url,
+      );
     }
   });
 });
