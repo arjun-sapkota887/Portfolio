@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { portfolio } from './data/portfolio';
+import { HoverLabel } from './ui/HoverLabel';
 
 const SceneRoot = lazy(() => import('./scene/SceneRoot'));
 
@@ -13,6 +14,7 @@ export default function App() {
         <h1>{portfolio.owner.name}</h1>
         <p>{portfolio.owner.role}</p>
       </header>
+      <HoverLabel />
     </main>
   );
 }

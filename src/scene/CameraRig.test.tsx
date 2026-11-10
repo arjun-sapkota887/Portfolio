@@ -1,5 +1,6 @@
 import { useThree } from '@react-three/fiber';
 import ReactThreeTestRenderer from '@react-three/test-renderer';
+import { useEffect } from 'react';
 import type { Camera } from 'three';
 import { Vector3 } from 'three';
 import { portfolio } from '../data/portfolio';
@@ -8,11 +9,15 @@ import { OVERVIEW } from '../lib/camera';
 import { CameraRig } from './CameraRig';
 import { SolarSystem } from './SolarSystem';
 
-let camera: Camera;
+const captured: { camera?: Camera } = {};
 const CaptureCamera = () => {
-  camera = useThree((state) => state.camera);
+  const camera = useThree((state) => state.camera);
+  useEffect(() => {
+    captured.camera = camera;
+  }, [camera]);
   return null;
 };
+const cam = () => captured.camera!;
 
 const Scene = ({ active }: { active: SectionId | null }) => (
   <>
@@ -32,11 +37,11 @@ describe('CameraRig', () => {
     const renderer = await ReactThreeTestRenderer.create(<Scene active={null} />);
     await renderer.advanceFrames(240, 1 / 60);
     const target = planetPosition(renderer, 'projects');
-    const before = camera.position.distanceTo(target);
+    const before = cam().position.distanceTo(target);
 
     await renderer.update(<Scene active="projects" />);
     await renderer.advanceFrames(240, 1 / 60);
-    const after = camera.position.distanceTo(target);
+    const after = cam().position.distanceTo(target);
     expect(after).toBeLessThan(before / 3);
   });
 
@@ -45,12 +50,12 @@ describe('CameraRig', () => {
     await renderer.advanceFrames(240, 1 / 60);
     await renderer.update(<Scene active={null} />);
     await renderer.advanceFrames(400, 1 / 60);
-    expect(camera.position.distanceTo(new Vector3(...OVERVIEW.position))).toBeLessThan(0.5);
+    expect(cam().position.distanceTo(new Vector3(...OVERVIEW.position))).toBeLessThan(0.5);
   });
 
   it('focuses the sun for the About section', async () => {
     const renderer = await ReactThreeTestRenderer.create(<Scene active="about" />);
     await renderer.advanceFrames(400, 1 / 60);
-    expect(camera.position.length()).toBeLessThan(20);
+    expect(cam().position.length()).toBeLessThan(20);
   });
 });
