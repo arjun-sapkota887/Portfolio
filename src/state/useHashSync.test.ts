@@ -14,6 +14,13 @@ describe('useHashSync', () => {
     expect(store.getState().active).toBe('projects');
   });
 
+  it('skips the intro for deep links', () => {
+    history.replaceState(null, '', '/#projects');
+    const store = setup();
+    renderHook(() => useHashSync(store));
+    expect(store.getState().introDone).toBe(true);
+  });
+
   it('ignores an unknown initial hash', () => {
     history.replaceState(null, '', '/#nope');
     const store = setup();

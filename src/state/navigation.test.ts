@@ -67,4 +67,12 @@ describe('navigation store', () => {
     store.getState().hover(null);
     expect(store.getState().hovered).toBeNull();
   });
+
+  it('enter starts the dive and finishIntro ends it', () => {
+    const store = setup();
+    store.getState().enter();
+    expect(store.getState()).toMatchObject({ diving: true, introDone: false });
+    store.getState().finishIntro();
+    expect(store.getState()).toMatchObject({ diving: false, introDone: true });
+  });
 });

@@ -11,7 +11,12 @@ const sizes = new Map(portfolio.sections.map((s) => [s.id, s.body]));
 const scratch = new Vector3();
 
 /** Smoothly flies the camera between the overview and the focused body each frame. */
-export function CameraRig({ active }: { active: SectionId | null }) {
+export function CameraRig({
+  active,
+}: {
+  active: SectionId | null;
+  stage?: 'intro' | 'diving' | 'scene';
+}) {
   const camera = useThree((state) => state.camera);
   const scene = useThree((state) => state.scene);
   const size = useThree((state) => state.size);

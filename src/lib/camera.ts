@@ -6,6 +6,8 @@ export interface CameraPose {
 }
 
 export const OVERVIEW: CameraPose = { position: [0, 16, 40], lookAt: [0, 0, 0] };
+export const GALAXY_VIEW: CameraPose = { position: [0, 48, 26], lookAt: [0, 0, 0] };
+export const GALAXY_CORE: CameraPose = { position: [0, 1.5, 2.5], lookAt: [0, 0, 0] };
 
 /**
  * Camera pose that frames a body. Planets are viewed from the sunward side,

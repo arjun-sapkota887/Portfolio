@@ -5,7 +5,7 @@ import type { Camera } from 'three';
 import { Vector3 } from 'three';
 import { portfolio } from '../data/portfolio';
 import type { SectionId } from '../data/types';
-import { OVERVIEW } from '../lib/camera';
+import { GALAXY_VIEW, OVERVIEW } from '../lib/camera';
 import { CameraRig } from './CameraRig';
 import { SolarSystem } from './SolarSystem';
 
@@ -19,11 +19,17 @@ const CaptureCamera = () => {
 };
 const cam = () => captured.camera!;
 
-const Scene = ({ active }: { active: SectionId | null }) => (
+const Scene = ({
+  active,
+  stage = 'scene',
+}: {
+  active: SectionId | null;
+  stage?: 'intro' | 'diving' | 'scene';
+}) => (
   <>
     <CaptureCamera />
     <SolarSystem sections={portfolio.sections} onSelect={() => {}} speed={0} />
-    <CameraRig active={active} />
+    <CameraRig active={active} stage={stage} />
   </>
 );
 
@@ -57,5 +63,15 @@ describe('CameraRig', () => {
     const renderer = await ReactThreeTestRenderer.create(<Scene active="about" />);
     await renderer.advanceFrames(400, 1 / 60);
     expect(cam().position.length()).toBeLessThan(20);
+  });
+
+  it('frames the galaxy during the intro and dives toward its core', async () => {
+    const renderer = await ReactThreeTestRenderer.create(<Scene active={null} stage="intro" />);
+    await renderer.advanceFrames(400, 1 / 60);
+    expect(cam().position.distanceTo(new Vector3(...GALAXY_VIEW.position))).toBeLessThan(0.5);
+
+    await renderer.update(<Scene active={null} stage="diving" />);
+    await renderer.advanceFrames(400, 1 / 60);
+    expect(cam().position.length()).toBeLessThan(5);
   });
 });

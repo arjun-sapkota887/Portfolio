@@ -8,12 +8,15 @@ export interface NavigationState {
   /** Focused section, or null for the solar-system overview. */
   active: SectionId | null;
   introDone: boolean;
+  /** Camera is diving from the galaxy into the solar system. */
+  diving: boolean;
   /** Section under the pointer, for hover labels. */
   hovered: SectionId | null;
   focus: (id: string) => void;
   back: () => void;
   next: () => void;
   prev: () => void;
+  enter: () => void;
   finishIntro: () => void;
   hover: (id: string | null) => void;
 }
@@ -34,6 +37,8 @@ export function createNavigationStore(order: SectionId[]) {
     order,
     active: null,
     introDone: false,
+    diving: false,
+    enter: () => {},
     hovered: null,
     focus: (id) => {
       if (isSection(id)) set({ active: id });
