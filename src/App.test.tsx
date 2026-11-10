@@ -14,6 +14,12 @@ vi.mock('./scene/SceneRoot', () => ({
   default: () => <div data-testid="scene" />,
 }));
 
+const webgl = vi.hoisted(() => ({ available: true }));
+vi.mock('./lib/webgl', () => ({ isWebGLAvailable: () => webgl.available }));
+afterEach(() => {
+  webgl.available = true;
+});
+
 describe('App', () => {
   it('shows the intro first', () => {
     render(<App />);
@@ -55,5 +61,18 @@ describe('App', () => {
     navigationStore.getState().finishIntro();
     render(<App />);
     expect(screen.getByRole('navigation', { name: /solar system/i })).toBeInTheDocument();
+  });
+
+  it('shows a loading status while the scene loads', () => {
+    render(<App />);
+    expect(screen.getByRole('status', { name: /loading/i })).toBeInTheDocument();
+  });
+
+  it('falls back to a 2D page without WebGL', () => {
+    webgl.available = false;
+    render(<App />);
+    expect(screen.queryByTestId('scene')).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: /sections/i })).toBeInTheDocument();
   });
 });
