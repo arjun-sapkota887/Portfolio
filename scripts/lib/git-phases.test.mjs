@@ -55,7 +55,13 @@ describe('isClean', () => {
 
 describe('checkpoint', () => {
   it('creates an annotated phase tag on HEAD', () => {
-    const tag = checkpoint({ git, verify: pass, number: 1, slug: 'rollback-tools', summary: 'Tools' });
+    const tag = checkpoint({
+      git,
+      verify: pass,
+      number: 1,
+      slug: 'rollback-tools',
+      summary: 'Tools',
+    });
     expect(tag).toBe('phase-1-rollback-tools');
     expect(sh('cat-file', '-t', tag)).toBe('tag');
     expect(sh('rev-list', '-n', '1', tag)).toBe(sh('rev-parse', 'HEAD'));
@@ -88,9 +94,9 @@ describe('checkpoint', () => {
     expect(() => checkpoint({ git, verify: pass, number: -1, slug: 'x', summary: 's' })).toThrow(
       /phase number/i,
     );
-    expect(() => checkpoint({ git, verify: pass, number: 1, slug: 'Bad Slug', summary: 's' })).toThrow(
-      /slug/i,
-    );
+    expect(() =>
+      checkpoint({ git, verify: pass, number: 1, slug: 'Bad Slug', summary: 's' }),
+    ).toThrow(/slug/i);
   });
 
   it('refuses to overwrite an existing tag', () => {

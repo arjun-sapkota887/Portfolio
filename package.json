@@ -14,7 +14,11 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "verify": "npm run lint && npm run typecheck && npm run test:coverage && npm run build"
+    "verify": "npm run lint && npm run typecheck && npm run test:coverage && npm run build",
+    "checkpoint": "node scripts/phase-tools.mjs checkpoint",
+    "phases": "node scripts/phase-tools.mjs list",
+    "rollback": "node scripts/phase-tools.mjs rollback",
+    "restore": "node scripts/phase-tools.mjs restore"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
