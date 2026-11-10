@@ -22,8 +22,10 @@ const Scene = ({ active }: { active: SectionId | null }) => (
   </>
 );
 
-const planetPosition = (renderer: Awaited<ReturnType<typeof ReactThreeTestRenderer.create>>, id: string) =>
-  renderer.scene.findAll((n) => n.props.name === `planet-${id}`)[0].instance.position as Vector3;
+const planetPosition = (
+  renderer: Awaited<ReturnType<typeof ReactThreeTestRenderer.create>>,
+  id: string,
+) => renderer.scene.findAll((n) => n.props.name === `planet-${id}`)[0].instance.position as Vector3;
 
 describe('CameraRig', () => {
   it('flies the camera toward the focused planet', async () => {

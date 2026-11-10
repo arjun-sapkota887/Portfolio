@@ -12,12 +12,13 @@ interface PlanetProps {
   seed: number;
   speed: number;
   onSelect: () => void;
+  onHover: (hovering: boolean) => void;
 }
 
 const RING_INNER = 1.35;
 const RING_OUTER = 2.3;
 
-export function Planet({ section, seed, speed, onSelect }: PlanetProps) {
+export function Planet({ section, seed, speed, onSelect, onHover }: PlanetProps) {
   const { id, body } = section;
   const group = useRef<Group>(null);
   const sphere = useRef<Mesh>(null);
@@ -50,8 +51,15 @@ export function Planet({ section, seed, speed, onSelect }: PlanetProps) {
           event.stopPropagation();
           onSelect();
         }}
-        onPointerOver={() => (document.body.style.cursor = 'pointer')}
-        onPointerOut={() => (document.body.style.cursor = '')}
+        onPointerOver={(event) => {
+          event.stopPropagation();
+          document.body.style.cursor = 'pointer';
+          onHover(true);
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = '';
+          onHover(false);
+        }}
       >
         <sphereGeometry args={[body.size, 64, 64]} />
       </mesh>

@@ -7,9 +7,10 @@ interface SunProps {
   size: number;
   speed: number;
   onSelect: () => void;
+  onHover: (hovering: boolean) => void;
 }
 
-export function Sun({ size, speed, onSelect }: SunProps) {
+export function Sun({ size, speed, onSelect, onHover }: SunProps) {
   const surface = useMemo(() => createSunMaterial(), []);
   const glow = useMemo(() => createGlowMaterial('#ffae42', 1.1), []);
   const corona = useMemo(() => createGlowMaterial('#ff6a1a', 0.6), []);
@@ -27,8 +28,15 @@ export function Sun({ size, speed, onSelect }: SunProps) {
           event.stopPropagation();
           onSelect();
         }}
-        onPointerOver={() => (document.body.style.cursor = 'pointer')}
-        onPointerOut={() => (document.body.style.cursor = '')}
+        onPointerOver={(event) => {
+          event.stopPropagation();
+          document.body.style.cursor = 'pointer';
+          onHover(true);
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = '';
+          onHover(false);
+        }}
       >
         <sphereGeometry args={[size, 96, 96]} />
       </mesh>

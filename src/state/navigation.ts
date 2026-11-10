@@ -8,11 +8,14 @@ export interface NavigationState {
   /** Focused section, or null for the solar-system overview. */
   active: SectionId | null;
   introDone: boolean;
+  /** Section under the pointer, for hover labels. */
+  hovered: SectionId | null;
   focus: (id: string) => void;
   back: () => void;
   next: () => void;
   prev: () => void;
   finishIntro: () => void;
+  hover: (id: string | null) => void;
 }
 
 export type NavigationStore = ReturnType<typeof createNavigationStore>;
@@ -24,17 +27,22 @@ export function createNavigationStore(order: SectionId[]) {
     return order[(index + delta + order.length) % order.length];
   };
 
+  const isSection = (id: string | null): id is SectionId =>
+    (order as (string | null)[]).includes(id);
+
   return createStore<NavigationState>()((set) => ({
     order,
     active: null,
     introDone: false,
+    hovered: null,
     focus: (id) => {
-      if ((order as string[]).includes(id)) set({ active: id as SectionId });
+      if (isSection(id)) set({ active: id });
     },
     back: () => set({ active: null }),
     next: () => set(({ active }) => ({ active: step(active, 1) })),
     prev: () => set(({ active }) => ({ active: step(active, -1) })),
     finishIntro: () => set({ introDone: true }),
+    hover: (id) => set({ hovered: isSection(id) ? id : null }),
   }));
 }
 

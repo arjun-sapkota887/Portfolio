@@ -8,11 +8,17 @@ import { Sun } from './Sun';
 export interface SolarSystemProps {
   sections: Section[];
   onSelect: (id: SectionId) => void;
+  onHover?: (id: SectionId | null) => void;
   /** Multiplier for orbital time. 0 freezes the system. */
   speed?: number;
 }
 
-export function SolarSystem({ sections, onSelect, speed = 1 }: SolarSystemProps) {
+export function SolarSystem({
+  sections,
+  onSelect,
+  onHover = () => {},
+  speed = 1,
+}: SolarSystemProps) {
   return (
     <group>
       <MilkyWay />
@@ -26,6 +32,7 @@ export function SolarSystem({ sections, onSelect, speed = 1 }: SolarSystemProps)
               size={body.size}
               speed={speed}
               onSelect={() => onSelect(section.id)}
+              onHover={(on) => onHover(on ? section.id : null)}
             />
           );
         }
@@ -37,6 +44,7 @@ export function SolarSystem({ sections, onSelect, speed = 1 }: SolarSystemProps)
               seed={index * 7.31}
               speed={speed}
               onSelect={() => onSelect(section.id)}
+              onHover={(on) => onHover(on ? section.id : null)}
             />
           </group>
         );
