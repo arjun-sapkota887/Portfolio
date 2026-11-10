@@ -17,7 +17,13 @@ export interface Orbit {
 
 export type Body =
   | { kind: 'sun'; size: number }
-  | { kind: 'planet'; size: number; surface: PlanetSurface; colors: [string, string]; orbit: Orbit };
+  | {
+      kind: 'planet';
+      size: number;
+      surface: PlanetSurface;
+      colors: [string, string];
+      orbit: Orbit;
+    };
 
 export interface Section {
   id: SectionId;

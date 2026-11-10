@@ -40,7 +40,13 @@ export const portfolio: Portfolio = {
         size: 0.85,
         surface: 'terran',
         colors: ['#2f6fb5', '#3f8f4a'],
-        orbit: { radius: 11, period: 60, eccentricity: 0.04, inclination: deg(-2), phase: deg(140) },
+        orbit: {
+          radius: 11,
+          period: 60,
+          eccentricity: 0.04,
+          inclination: deg(-2),
+          phase: deg(140),
+        },
       },
     },
     {
@@ -64,7 +70,13 @@ export const portfolio: Portfolio = {
         size: 1.3,
         surface: 'ringed',
         colors: ['#e3cf9f', '#a88a5c'],
-        orbit: { radius: 24, period: 140, eccentricity: 0.07, inclination: deg(-3), phase: deg(320) },
+        orbit: {
+          radius: 24,
+          period: 140,
+          eccentricity: 0.07,
+          inclination: deg(-3),
+          phase: deg(320),
+        },
       },
     },
   ],
@@ -79,7 +91,8 @@ export const portfolio: Portfolio = {
   projects: [
     {
       title: 'Solar Portfolio',
-      description: 'This site: an explorable 3D solar system built with React Three Fiber and procedural shaders.',
+      description:
+        'This site: an explorable 3D solar system built with React Three Fiber and procedural shaders.',
       tech: ['React', 'Three.js', 'TypeScript', 'Vitest'],
       links: [{ label: 'Source', url: 'https://github.com/your-username/solar-portfolio' }],
     },

@@ -35,7 +35,9 @@ export function validatePortfolio(portfolio: Portfolio): string[] {
 
     const { orbit, colors } = body;
     if (orbit.radius <= lastRadius) {
-      errors.push(`Section "${id}": orbit radius ${orbit.radius} must be larger than ${lastRadius}`);
+      errors.push(
+        `Section "${id}": orbit radius ${orbit.radius} must be larger than ${lastRadius}`,
+      );
     }
     lastRadius = Math.max(lastRadius, orbit.radius);
     if (orbit.period <= 0) errors.push(`Section "${id}": orbit period must be positive`);
@@ -47,10 +49,7 @@ export function validatePortfolio(portfolio: Portfolio): string[] {
     }
   }
 
-  const links: Link[] = [
-    ...portfolio.projects.flatMap((p) => p.links),
-    ...portfolio.contact.links,
-  ];
+  const links: Link[] = [...portfolio.projects.flatMap((p) => p.links), ...portfolio.contact.links];
   for (const { label, url } of links) {
     if (!isHttps(url)) errors.push(`Link "${label}" must use https: ${url}`);
   }

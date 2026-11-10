@@ -23,10 +23,18 @@ const valid = (): Portfolio => ({
   ],
   skills: [{ group: 'Frontend', items: ['React'] }],
   projects: [
-    { title: 'P', description: 'D', tech: ['TS'], links: [{ label: 'Code', url: 'https://x.dev' }] },
+    {
+      title: 'P',
+      description: 'D',
+      tech: ['TS'],
+      links: [{ label: 'Code', url: 'https://x.dev' }],
+    },
   ],
   experience: [{ role: 'Dev', org: 'Org', start: '2024', summary: 'S' }],
-  contact: { email: 'ada@example.com', links: [{ label: 'GitHub', url: 'https://github.com/ada' }] },
+  contact: {
+    email: 'ada@example.com',
+    links: [{ label: 'GitHub', url: 'https://github.com/ada' }],
+  },
 });
 
 describe('validatePortfolio', () => {
@@ -43,7 +51,9 @@ describe('validatePortfolio', () => {
   it('rejects duplicate section ids', () => {
     const p = valid();
     p.sections.push(planet('skills', 20));
-    expect(validatePortfolio(p)).toContainEqual(expect.stringMatching(/duplicate section id "skills"/i));
+    expect(validatePortfolio(p)).toContainEqual(
+      expect.stringMatching(/duplicate section id "skills"/i),
+    );
   });
 
   it('requires exactly one sun', () => {
