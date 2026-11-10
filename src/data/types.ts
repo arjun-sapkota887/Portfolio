@@ -41,7 +41,20 @@ export interface Portfolio {
   owner: { name: string; role: string; bio: string; location: string };
   sections: Section[];
   skills: { group: string; items: string[] }[];
-  projects: { title: string; description: string; tech: string[]; links: Link[] }[];
+  education: {
+    degree: string;
+    school: string;
+    minor?: string;
+    expected: string;
+    coursework: string[];
+  }[];
+  projects: {
+    title: string;
+    description: string;
+    tech: string[];
+    links: Link[];
+    award?: string;
+  }[];
   experience: { role: string; org: string; start: string; end?: string; summary: string }[];
   contact: { email: string; links: Link[] };
 }

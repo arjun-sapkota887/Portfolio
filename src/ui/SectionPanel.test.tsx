@@ -39,6 +39,18 @@ describe('SectionPanel', () => {
     expect(panel).toHaveTextContent(portfolio.owner.location);
   });
 
+  it('About shows education with expected date and coursework', () => {
+    const panel = open('about');
+    expect(portfolio.education.length).toBeGreaterThan(0);
+    for (const edu of portfolio.education) {
+      expect(panel).toHaveTextContent(edu.degree);
+      expect(panel).toHaveTextContent(edu.school);
+      expect(panel).toHaveTextContent(edu.expected);
+      for (const course of edu.coursework)
+        expect(within(panel).getByText(course)).toBeInTheDocument();
+    }
+  });
+
   it('Skills lists every group and item', () => {
     const panel = open('skills');
     for (const { group, items } of portfolio.skills) {
@@ -61,15 +73,45 @@ describe('SectionPanel', () => {
     }
   });
 
+  it('Projects shows award badges', () => {
+    const panel = open('projects');
+    const awarded = portfolio.projects.filter((p) => p.award);
+    expect(awarded.length).toBeGreaterThan(0);
+    for (const project of awarded) {
+      const card = within(panel).getByRole('article', { name: project.title });
+      expect(within(card).getByText(project.award!)).toBeInTheDocument();
+    }
+  });
+
+  it('Projects without links render no empty link row', () => {
+    const panel = open('projects');
+    const linkless = portfolio.projects.filter((p) => p.links.length === 0);
+    expect(linkless.length).toBeGreaterThan(0);
+    for (const project of linkless) {
+      const card = within(panel).getByRole('article', { name: project.title });
+      expect(card.querySelector('.links')).toBeNull();
+    }
+  });
+
   it('Experience shows role, organisation and dates', () => {
     const panel = open('experience');
     for (const job of portfolio.experience) {
       expect(panel).toHaveTextContent(job.role);
       expect(panel).toHaveTextContent(job.org);
-      expect(panel).toHaveTextContent(
-        job.end ? `${job.start} – ${job.end}` : `${job.start} – Present`,
-      );
+      const dates = !job.end
+        ? `${job.start} – Present`
+        : job.end === job.start
+          ? job.start
+          : `${job.start} – ${job.end}`;
+      expect(panel).toHaveTextContent(dates);
     }
+  });
+
+  it('Experience shows a single date for one-off events', () => {
+    const panel = open('experience');
+    const oneOff = portfolio.experience.find((j) => j.end && j.end === j.start);
+    expect(oneOff).toBeDefined();
+    expect(panel).not.toHaveTextContent(`${oneOff!.start} – ${oneOff!.start}`);
   });
 
   it('Contact shows the email as text and a mailto link, plus profile links', () => {

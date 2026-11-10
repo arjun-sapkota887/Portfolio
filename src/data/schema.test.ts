@@ -22,6 +22,7 @@ const valid = (): Portfolio => ({
     planet('projects', 13),
   ],
   skills: [{ group: 'Frontend', items: ['React'] }],
+  education: [{ degree: 'BSc', school: 'Uni', expected: '2027', coursework: ['Algorithms'] }],
   projects: [
     {
       title: 'P',

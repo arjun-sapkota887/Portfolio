@@ -88,6 +88,8 @@ export const portfolio: Portfolio = {
     { group: 'Practices', items: ['Test-driven development', 'Git', 'CI/CD'] },
   ],
 
+  education: [],
+
   projects: [
     {
       title: 'Solar Portfolio',
