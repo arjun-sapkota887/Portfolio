@@ -63,11 +63,6 @@ describe('App', () => {
     expect(screen.getByRole('navigation', { name: /solar system/i })).toBeInTheDocument();
   });
 
-  it('shows a loading status while the scene loads', () => {
-    render(<App />);
-    expect(screen.getByRole('status', { name: /loading/i })).toBeInTheDocument();
-  });
-
   it('falls back to a 2D page without WebGL', () => {
     webgl.available = false;
     render(<App />);

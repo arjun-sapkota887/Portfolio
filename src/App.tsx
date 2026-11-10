@@ -1,24 +1,27 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { portfolio } from './data/portfolio';
 import { flags } from './lib/flags';
+import { isWebGLAvailable } from './lib/webgl';
 import { navigationStore, useNavigation } from './state/navigation';
 import { useHashSync } from './state/useHashSync';
 import { useKeyboardNav } from './state/useKeyboardNav';
+import { Fallback } from './ui/Fallback';
 import { HoverLabel } from './ui/HoverLabel';
 import { Intro } from './ui/Intro';
+import { Loader } from './ui/Loader';
 import { NavMenu } from './ui/NavMenu';
 import { SectionPanel } from './ui/SectionPanel';
 
 const SceneRoot = lazy(() => import('./scene/SceneRoot'));
 
-export default function App() {
+function SolarApp() {
   useHashSync(navigationStore);
   useKeyboardNav(navigationStore);
   const introDone = useNavigation((s) => s.introDone);
 
   return (
     <main className="app">
-      <Suspense fallback={<div className="scene-loading" aria-hidden="true" />}>
+      <Suspense fallback={<Loader />}>
         <SceneRoot />
       </Suspense>
       <Intro instant={flags.static} />
@@ -35,4 +38,9 @@ export default function App() {
       )}
     </main>
   );
+}
+
+export default function App() {
+  const [webgl] = useState(() => isWebGLAvailable());
+  return webgl ? <SolarApp /> : <Fallback />;
 }

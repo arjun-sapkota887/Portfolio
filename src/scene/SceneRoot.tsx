@@ -1,3 +1,4 @@
+import { AdaptiveDpr } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { portfolio } from '../data/portfolio';
 import { flags } from '../lib/flags';
@@ -20,10 +21,12 @@ export default function SceneRoot() {
       <Canvas
         camera={{ position: [0, 48, 26], fov: 45, near: 0.1, far: 1000 }}
         dpr={[1, 2]}
+        performance={{ min: 0.5 }}
         gl={{ antialias: true, preserveDrawingBuffer: flags.static }}
         onPointerMissed={() => hover(null)}
       >
         <color attach="background" args={['#020208']} />
+        <AdaptiveDpr pixelated />
         <Galaxy speed={flags.static ? 0 : 1} visible={!introDone} />
         <group visible={introDone}>
           <SolarSystem

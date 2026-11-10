@@ -447,3 +447,84 @@ body,
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+
+/* Loader */
+.scene-loading {
+  display: grid;
+  place-items: center;
+}
+
+.loader-orbit {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  border-top-color: var(--accent);
+  animation: spin 1.1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001s !important;
+    transition-duration: 0.001s !important;
+  }
+}
+
+/* No-WebGL fallback */
+.fallback {
+  height: 100%;
+  overflow-y: auto;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  background: radial-gradient(ellipse at top, rgba(255, 150, 60, 0.12), transparent 60%), #020208;
+}
+
+.fallback h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+.fallback-role {
+  margin: 0.3rem 0 1rem;
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+.fallback-note {
+  color: var(--muted);
+}
+.fallback nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.fallback a {
+  color: var(--accent);
+}
+.fallback section {
+  padding: 2rem 0 0;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 2rem;
+}
+.fallback .eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.fallback h2 {
+  margin: 0.3rem 0 1rem;
+  font-size: 1.8rem;
+}
