@@ -184,10 +184,10 @@ export function createRingMaterial(colors: [string, string], inner: number, oute
       varying float vR;
       ${noiseGlsl}
       void main() {
-        float bands = snoise(vec3(vR * 40.0, 0.0, 0.0)) * 0.5 + 0.5;
+        float bands = snoise(vec3(vR * 14.0, 0.0, 0.0)) * 0.35 + 0.5 + snoise(vec3(vR * 5.0, 1.0, 0.0)) * 0.15;
         float gap = smoothstep(0.6, 0.62, vR) * (1.0 - smoothstep(0.66, 0.68, vR));
         float edge = smoothstep(0.0, 0.08, vR) * (1.0 - smoothstep(0.9, 1.0, vR));
-        float alpha = edge * (0.35 + bands * 0.55) * (1.0 - gap * 0.85);
+        float alpha = edge * (0.25 + bands * 0.45) * (1.0 - gap * 0.85);
         vec3 color = mix(uColorB, uColorA, bands);
         gl_FragColor = vec4(color, alpha);
       }`,
@@ -249,7 +249,7 @@ export function createMilkyWayMaterial(bandNormal: Vector3Tuple = [0.25, 0.9, 0.
         float lanes = smoothstep(0.45, 0.7, fbm(d * 9.0 + 3.0) * 0.5 + 0.5);
         vec3 haze = mix(vec3(0.16, 0.12, 0.28), vec3(0.55, 0.38, 0.5), dust);
         vec3 glow = vec3(1.0, 0.72, 0.45) * pow(max(dot(d, normalize(vec3(-0.8, 0.1, -0.6))), 0.0), 6.0);
-        vec3 color = (haze * dust + glow * 0.6) * band * (1.0 - lanes * 0.6) * 0.45;
+        vec3 color = (haze * dust + glow * 0.6) * band * (1.0 - lanes * 0.6) * 0.9;
         color += vec3(0.008, 0.01, 0.025);
         gl_FragColor = vec4(color, 1.0);
       }`,

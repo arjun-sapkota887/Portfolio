@@ -49,7 +49,7 @@ export function Starfield({
     g.setAttribute('aTwinkle', new BufferAttribute(twinkle, 1));
     return g;
   }, [count, seed]);
-  const material = useMemo(createStarMaterial, []);
+  const material = useMemo(() => createStarMaterial(), []);
 
   useSceneTime(speed, (time) => {
     material.uniforms.uTime.value = time;

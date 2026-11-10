@@ -10,9 +10,9 @@ interface SunProps {
 }
 
 export function Sun({ size, speed, onSelect }: SunProps) {
-  const surface = useMemo(createSunMaterial, []);
+  const surface = useMemo(() => createSunMaterial(), []);
   const glow = useMemo(() => createGlowMaterial('#ffae42', 1.1), []);
-  const corona = useMemo(() => createGlowMaterial('#ff6a1a', 0.45), []);
+  const corona = useMemo(() => createGlowMaterial('#ff6a1a', 0.6), []);
 
   useSceneTime(speed, (time) => {
     surface.uniforms.uTime.value = time;
@@ -37,7 +37,7 @@ export function Sun({ size, speed, onSelect }: SunProps) {
           <planeGeometry args={[size * 5, size * 5]} />
         </mesh>
         <mesh material={corona} renderOrder={1}>
-          <planeGeometry args={[size * 12, size * 12]} />
+          <planeGeometry args={[size * 16, size * 16]} />
         </mesh>
       </Billboard>
       <pointLight intensity={2} distance={0} decay={0} color="#fff1d6" />

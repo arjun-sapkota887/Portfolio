@@ -17,6 +17,11 @@ export default tseslint.config(
     },
   },
   {
+    // react-three-fiber mutates Three.js objects (uniforms, positions) inside useFrame by design.
+    files: ['src/scene/**/*.{ts,tsx}'],
+    rules: { 'react-hooks/immutability': 'off' },
+  },
+  {
     extends: [js.configs.recommended],
     files: ['**/*.{js,mjs}'],
     languageOptions: { ecmaVersion: 2022, globals: globals.node },

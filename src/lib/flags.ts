@@ -3,6 +3,11 @@ export interface Flags {
   static: boolean;
 }
 
-export function readFlags(_search: string, _reducedMotion: boolean): Flags {
-  throw new Error('not implemented');
+export function readFlags(search: string, reducedMotion: boolean): Flags {
+  return { static: reducedMotion || new URLSearchParams(search).get('static') === '1' };
 }
+
+export const flags: Flags = readFlags(
+  typeof location === 'undefined' ? '' : location.search,
+  typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches,
+);
