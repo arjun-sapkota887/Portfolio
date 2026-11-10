@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('nav opens a section panel and Escape returns to the overview', async ({ page }) => {
   await page.goto('/?static=1');
+  await page.getByRole('button', { name: /skip intro/i }).click();
   await page
     .getByRole('navigation', { name: /solar system/i })
     .getByRole('button', { name: 'Projects' })

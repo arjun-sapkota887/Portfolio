@@ -3,7 +3,14 @@ import { useRef } from 'react';
 import { PerspectiveCamera, Vector3 } from 'three';
 import { portfolio } from '../data/portfolio';
 import type { SectionId } from '../data/types';
-import { focusPose, OVERVIEW, viewOffsetFor, type CameraPose } from '../lib/camera';
+import {
+  focusPose,
+  GALAXY_CORE,
+  GALAXY_VIEW,
+  OVERVIEW,
+  viewOffsetFor,
+  type CameraPose,
+} from '../lib/camera';
 import { damp } from '../lib/easing';
 
 const SMOOTHING = 2.5;
@@ -13,6 +20,7 @@ const scratch = new Vector3();
 /** Smoothly flies the camera between the overview and the focused body each frame. */
 export function CameraRig({
   active,
+  stage = 'scene',
 }: {
   active: SectionId | null;
   stage?: 'intro' | 'diving' | 'scene';
@@ -25,7 +33,8 @@ export function CameraRig({
 
   useFrame((_, delta) => {
     const dt = Math.min(delta, 0.1);
-    const pose = poseFor(active);
+    const pose =
+      stage === 'intro' ? GALAXY_VIEW : stage === 'diving' ? GALAXY_CORE : poseFor(active);
     const p = camera.position;
     p.set(
       damp(p.x, pose.position[0], SMOOTHING, dt),
@@ -41,7 +50,7 @@ export function CameraRig({
     camera.lookAt(l);
 
     if (camera instanceof PerspectiveCamera) {
-      const target = viewOffsetFor(active !== null, size.width, size.height);
+      const target = viewOffsetFor(stage === 'scene' && active !== null, size.width, size.height);
       const o = offset.current;
       o.x = damp(o.x, target.x, SMOOTHING, dt);
       o.y = damp(o.y, target.y, SMOOTHING, dt);

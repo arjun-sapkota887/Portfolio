@@ -12,7 +12,8 @@ test('renders the solar system canvas filling the viewport', async ({ page }) =>
 
 test('static scene matches the visual baseline', async ({ page }) => {
   await page.goto('/?static=1');
+  await page.getByRole('button', { name: /skip intro/i }).click();
   await expect(page.locator('canvas')).toBeVisible();
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(3500);
   await expect(page).toHaveScreenshot('solar-system.png', { maxDiffPixelRatio: 0.03 });
 });

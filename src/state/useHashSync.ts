@@ -11,7 +11,10 @@ export function useHashSync(store: NavigationStore): void {
       if (id) store.getState().focus(id);
       else store.getState().back();
     };
-    if (readHash()) applyHash();
+    if (readHash()) {
+      applyHash();
+      if (store.getState().active) store.getState().finishIntro();
+    }
 
     const unsubscribe = store.subscribe(({ active }, previous) => {
       if (active === previous.active || readHash() === (active ?? '')) return;

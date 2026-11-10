@@ -360,3 +360,90 @@ body,
     max-height: 66vh;
   }
 }
+
+/* Galaxy intro */
+.intro {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: end center;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 1.5rem 1.5rem max(9vh, 2rem);
+  text-align: center;
+  background: linear-gradient(
+    to top,
+    rgba(2, 2, 8, 0.85) 0%,
+    rgba(2, 2, 8, 0.4) 35%,
+    transparent 60%
+  );
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.9);
+  transition: opacity 0.8s ease;
+}
+
+.intro--leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-eyebrow,
+.intro-role {
+  margin: 0;
+  color: var(--muted);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.intro-name {
+  margin: 0;
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 40px rgba(255, 190, 120, 0.45);
+}
+
+.intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.intro-enter,
+.intro-skip {
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  font: inherit;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.intro-enter {
+  border: 1px solid rgba(255, 190, 120, 0.6);
+  background: rgba(255, 179, 71, 0.16);
+  color: var(--ink);
+  box-shadow: 0 0 30px rgba(255, 160, 60, 0.25);
+}
+
+.intro-enter:hover {
+  background: rgba(255, 179, 71, 0.28);
+}
+
+.intro-skip {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+.intro-skip:hover {
+  color: var(--ink);
+}
+
+.intro button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

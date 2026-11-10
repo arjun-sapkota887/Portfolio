@@ -15,12 +15,20 @@ vi.mock('./scene/SceneRoot', () => ({
 }));
 
 describe('App', () => {
+  it('shows the intro first', () => {
+    render(<App />);
+    expect(screen.getByRole('dialog', { name: /welcome/i })).toBeInTheDocument();
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+  });
+
   it('renders the owner name as the main heading', () => {
+    navigationStore.getState().finishIntro();
     render(<App />);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(portfolio.owner.name);
   });
 
   it('shows the owner role', () => {
+    navigationStore.getState().finishIntro();
     render(<App />);
     expect(screen.getByText(portfolio.owner.role)).toBeInTheDocument();
   });
@@ -44,6 +52,7 @@ describe('App', () => {
   });
 
   it('includes the section navigation', () => {
+    navigationStore.getState().finishIntro();
     render(<App />);
     expect(screen.getByRole('navigation', { name: /solar system/i })).toBeInTheDocument();
   });

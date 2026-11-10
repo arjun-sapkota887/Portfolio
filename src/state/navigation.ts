@@ -38,7 +38,7 @@ export function createNavigationStore(order: SectionId[]) {
     active: null,
     introDone: false,
     diving: false,
-    enter: () => {},
+    enter: () => set({ diving: true }),
     hovered: null,
     focus: (id) => {
       if (isSection(id)) set({ active: id });
@@ -46,7 +46,7 @@ export function createNavigationStore(order: SectionId[]) {
     back: () => set({ active: null }),
     next: () => set(({ active }) => ({ active: step(active, 1) })),
     prev: () => set(({ active }) => ({ active: step(active, -1) })),
-    finishIntro: () => set({ introDone: true }),
+    finishIntro: () => set({ introDone: true, diving: false }),
     hover: (id) => set({ hovered: isSection(id) ? id : null }),
   }));
 }
