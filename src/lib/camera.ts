@@ -32,6 +32,14 @@ export function focusPose(target: Vec3, size: number): CameraPose {
   };
 }
 
-export function viewOffsetFor(_focused: boolean, _width: number, _height: number) {
-  return { x: 0, y: 0 };
+/** Must match the CSS breakpoint where the panel becomes a bottom sheet. */
+export const NARROW_BREAKPOINT = 720;
+
+/**
+ * Pixel offset for PerspectiveCamera.setViewOffset so the focused body sits in
+ * the space the panel leaves free: left of the side panel, or above the bottom sheet.
+ */
+export function viewOffsetFor(focused: boolean, width: number, height: number) {
+  if (!focused) return { x: 0, y: 0 };
+  return width <= NARROW_BREAKPOINT ? { x: 0, y: height * 0.3 } : { x: width * 0.2, y: 0 };
 }

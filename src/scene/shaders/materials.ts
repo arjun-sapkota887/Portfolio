@@ -137,8 +137,9 @@ export function createPlanetMaterial(
           rimColor = vec3(0.35, 0.6, 1.0);
         } else {
           float freq = uSurface == 2 ? 16.0 : 10.0;
-          float turbulence = fbm(s * vec3(2.0, 6.0, 2.0) + vec3(uTime * 0.005, 0.0, 0.0));
-          float bands = sin(p.y * freq + turbulence * 2.5) * 0.5 + 0.5;
+          float turbulence = fbm(s * vec3(1.2, 5.0, 1.2) + vec3(uTime * 0.005, 0.0, 0.0));
+          float bands = sin(p.y * freq + turbulence * 0.9) * 0.5 + 0.5;
+          bands = mix(bands, sin(p.y * freq * 2.7 + turbulence) * 0.5 + 0.5, 0.3);
           color = mix(uColorB, uColorA, bands);
           color = mix(color, vec3(1.0, 0.95, 0.85), smoothstep(0.7, 1.0, bands) * 0.25);
           if (uSurface == 2) {

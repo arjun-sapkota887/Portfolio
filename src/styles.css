@@ -355,8 +355,8 @@ body,
     top: auto;
     left: 0.75rem;
     right: 0.75rem;
-    bottom: 0.75rem;
+    bottom: 4.5rem;
     width: auto;
-    max-height: 72vh;
+    max-height: 66vh;
   }
 }
