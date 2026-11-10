@@ -94,4 +94,21 @@ describe('SolarSystem', () => {
       expect(distance).toBeLessThanOrEqual(radius * (1 + eccentricity) + 1e-6);
     }
   });
+
+  it('reports hover over and out of a planet', async () => {
+    const onHover = vi.fn();
+    const renderer = await renderScene({ onHover });
+    const mesh = findNamed(renderer, 'planet-mesh-skills')[0];
+    await renderer.fireEvent(mesh, 'pointerOver');
+    expect(onHover).toHaveBeenLastCalledWith('skills');
+    await renderer.fireEvent(mesh, 'pointerOut');
+    expect(onHover).toHaveBeenLastCalledWith(null);
+  });
+
+  it('reports hover over the sun as About', async () => {
+    const onHover = vi.fn();
+    const renderer = await renderScene({ onHover });
+    await renderer.fireEvent(findNamed(renderer, 'sun')[0], 'pointerOver');
+    expect(onHover).toHaveBeenLastCalledWith('about');
+  });
 });

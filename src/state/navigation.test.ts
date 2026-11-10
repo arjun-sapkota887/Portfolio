@@ -57,4 +57,14 @@ describe('navigation store', () => {
     store.getState().finishIntro();
     expect(store.getState().introDone).toBe(true);
   });
+
+  it('tracks the hovered section and ignores unknown ids', () => {
+    const store = setup();
+    store.getState().hover('skills');
+    expect(store.getState().hovered).toBe('skills');
+    store.getState().hover('nope');
+    expect(store.getState().hovered).toBeNull();
+    store.getState().hover(null);
+    expect(store.getState().hovered).toBeNull();
+  });
 });
