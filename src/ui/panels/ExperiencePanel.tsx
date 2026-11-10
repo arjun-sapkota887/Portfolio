@@ -1,5 +1,8 @@
 import { portfolio } from '../../data/portfolio';
 
+const formatDates = (start: string, end?: string) =>
+  !end ? `${start} – Present` : end === start ? start : `${start} – ${end}`;
+
 export function ExperiencePanel() {
   return (
     <ol className="timeline">
@@ -8,9 +11,7 @@ export function ExperiencePanel() {
           <h3>
             {job.role} <span className="org">· {job.org}</span>
           </h3>
-          <p className="dates">
-            {job.start} – {job.end ?? 'Present'}
-          </p>
+          <p className="dates">{formatDates(job.start, job.end)}</p>
           <p>{job.summary}</p>
         </li>
       ))}

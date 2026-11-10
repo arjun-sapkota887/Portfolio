@@ -18,7 +18,7 @@ export function focusPose(target: Vec3, size: number): CameraPose {
   const horizontal = Math.hypot(x, z);
 
   if (horizontal < 1e-6) {
-    return { position: [x, y + size * 0.8, z + size * 3.4], lookAt: [x, y, z] };
+    return { position: [x, y + size * 1.2, z + size * 5.5], lookAt: [x, y, z] };
   }
 
   const distance = size * 4 + 1.5;

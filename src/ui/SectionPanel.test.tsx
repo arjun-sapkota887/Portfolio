@@ -26,6 +26,11 @@ describe('SectionPanel', () => {
     expect(within(panel).getByRole('heading', { level: 2 })).toHaveFocus();
   });
 
+  it('makes the scrollable body keyboard-focusable', () => {
+    const panel = open('projects');
+    expect(panel.querySelector('.panel-body')).toHaveAttribute('tabindex', '0');
+  });
+
   it('closes back to the overview', async () => {
     open('skills');
     await userEvent.click(screen.getByRole('button', { name: /back to overview/i }));

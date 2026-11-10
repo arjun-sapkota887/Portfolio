@@ -7,17 +7,25 @@ function ProjectCard({ project }: { project: (typeof portfolio.projects)[number]
   return (
     <article className="card" aria-labelledby={titleId}>
       <h3 id={titleId}>{project.title}</h3>
+      {project.award && (
+        <p className="award">
+          <span aria-hidden="true">★ </span>
+          <span>{project.award}</span>
+        </p>
+      )}
       <p>{project.description}</p>
       <ul className="tags" aria-label="Technologies">
         {project.tech.map((t) => (
           <li key={t}>{t}</li>
         ))}
       </ul>
-      <p className="links">
-        {project.links.map((link) => (
-          <ExternalLink key={link.url} {...link} />
-        ))}
-      </p>
+      {project.links.length > 0 && (
+        <p className="links">
+          {project.links.map((link) => (
+            <ExternalLink key={link.url} {...link} />
+          ))}
+        </p>
+      )}
     </article>
   );
 }

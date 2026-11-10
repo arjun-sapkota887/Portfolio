@@ -34,9 +34,11 @@ test('full journey: galaxy dive, every section, keyboard and browser history', a
   await expect(page).not.toHaveURL(/#/);
 });
 
-test('external project links open safely in a new tab', async ({ page }) => {
-  await page.goto('/#projects');
-  const links = page.getByRole('region', { name: 'Projects' }).getByRole('link');
+test('external links open safely in a new tab', async ({ page }) => {
+  await page.goto('/#contact');
+  const links = page
+    .getByRole('region', { name: 'Contact' })
+    .getByRole('link', { name: /github/i });
   await expect(links.first()).toBeVisible();
   for (const link of await links.all()) {
     await expect(link).toHaveAttribute('target', '_blank');

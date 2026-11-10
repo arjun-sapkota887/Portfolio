@@ -43,7 +43,7 @@ export function SectionPanel() {
           <span aria-hidden="true">←</span> Back to overview
         </button>
       </header>
-      <div className="panel-body">
+      <div className="panel-body" tabIndex={0}>
         <Content />
       </div>
     </section>
