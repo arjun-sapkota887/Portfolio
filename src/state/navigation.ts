@@ -1,4 +1,6 @@
+import { useStore } from 'zustand';
 import { createStore } from 'zustand/vanilla';
+import { portfolio } from '../data/portfolio';
 import type { SectionId } from '../data/types';
 
 export interface NavigationState {
@@ -15,8 +17,29 @@ export interface NavigationState {
 
 export type NavigationStore = ReturnType<typeof createNavigationStore>;
 
-export function createNavigationStore(_order: SectionId[]) {
-  return createStore<NavigationState>()(() => {
-    throw new Error('not implemented');
-  });
+export function createNavigationStore(order: SectionId[]) {
+  const step = (active: SectionId | null, delta: 1 | -1): SectionId => {
+    if (active === null) return delta === 1 ? order[0] : order[order.length - 1];
+    const index = order.indexOf(active);
+    return order[(index + delta + order.length) % order.length];
+  };
+
+  return createStore<NavigationState>()((set) => ({
+    order,
+    active: null,
+    introDone: false,
+    focus: (id) => {
+      if ((order as string[]).includes(id)) set({ active: id as SectionId });
+    },
+    back: () => set({ active: null }),
+    next: () => set(({ active }) => ({ active: step(active, 1) })),
+    prev: () => set(({ active }) => ({ active: step(active, -1) })),
+    finishIntro: () => set({ introDone: true }),
+  }));
+}
+
+export const navigationStore = createNavigationStore(portfolio.sections.map((s) => s.id));
+
+export function useNavigation<T>(selector: (state: NavigationState) => T): T {
+  return useStore(navigationStore, selector);
 }
