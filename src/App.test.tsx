@@ -1,6 +1,14 @@
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 import { portfolio } from './data/portfolio';
+import { navigationStore } from './state/navigation';
+
+const initial = navigationStore.getState();
+beforeEach(() => {
+  navigationStore.setState(initial, true);
+  history.replaceState(null, '', '/');
+});
 
 vi.mock('./scene/SceneRoot', () => ({
   default: () => <div data-testid="scene" />,
@@ -20,5 +28,23 @@ describe('App', () => {
   it('lazy-loads the 3D scene', async () => {
     render(<App />);
     expect(await screen.findByTestId('scene')).toBeInTheDocument();
+  });
+
+  it('opens the section named in the URL hash', () => {
+    history.replaceState(null, '', '/#skills');
+    render(<App />);
+    expect(screen.getByRole('region', { name: 'Skills' })).toBeInTheDocument();
+  });
+
+  it('closes the panel with Escape', async () => {
+    history.replaceState(null, '', '/#skills');
+    render(<App />);
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByRole('region', { name: 'Skills' })).not.toBeInTheDocument();
+  });
+
+  it('includes the section navigation', () => {
+    render(<App />);
+    expect(screen.getByRole('navigation', { name: /solar system/i })).toBeInTheDocument();
   });
 });
