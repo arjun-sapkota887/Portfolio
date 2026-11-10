@@ -1,4 +1,4 @@
-import { focusPose } from './camera';
+import { focusPose, viewOffsetFor } from './camera';
 import type { Vec3 } from './orbit';
 
 const dist = (a: Vec3, b: Vec3) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
@@ -26,5 +26,23 @@ describe('focusPose', () => {
     expect(lookAt).toEqual([0, 0, 0]);
     expect(position[2]).toBeGreaterThan(0);
     expect(dist(position, [0, 0, 0])).toBeGreaterThan(6);
+  });
+});
+
+describe('viewOffsetFor', () => {
+  it('is zero on the overview', () => {
+    expect(viewOffsetFor(false, 1280, 720)).toEqual({ x: 0, y: 0 });
+  });
+
+  it('shifts the subject left of the side panel on wide screens', () => {
+    const { x, y } = viewOffsetFor(true, 1280, 720);
+    expect(x).toBeGreaterThan(1280 * 0.1);
+    expect(y).toBe(0);
+  });
+
+  it('shifts the subject up above the bottom sheet on narrow screens', () => {
+    const { x, y } = viewOffsetFor(true, 412, 915);
+    expect(x).toBe(0);
+    expect(y).toBeGreaterThan(915 * 0.15);
   });
 });

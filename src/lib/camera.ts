@@ -31,3 +31,7 @@ export function focusPose(target: Vec3, size: number): CameraPose {
     lookAt: [x, y, z],
   };
 }
+
+export function viewOffsetFor(_focused: boolean, _width: number, _height: number) {
+  return { x: 0, y: 0 };
+}
